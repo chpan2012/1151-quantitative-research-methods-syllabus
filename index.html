@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>量化研究方法：思維模式與操作｜課程大綱</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F6F7F7;
+  --ink:#000;
+  --text:#1F2326;
+  --muted:#676E74;
+  --rule:#D6DADD;
+  --wash:#ECEFF1;
+  --accent:#3E5566;
+  --accent-soft:#8C969E;
+  --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
+  --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{
+  margin:0;color:var(--text);font-family:var(--sans);font-size:17px;line-height:1.85;
+  background-color:var(--paper);
+  background-image:
+    linear-gradient(to right,rgba(62,85,102,.05) 1px,transparent 1px),
+    linear-gradient(to bottom,rgba(62,85,102,.05) 1px,transparent 1px);
+  background-size:24px 24px;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+strong{color:var(--ink);font-weight:700}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88em;background:var(--wash);padding:.08em .4em;border-radius:3px;color:var(--ink)}
+
+/* layout */
+.shell{display:grid;grid-template-columns:1fr;max-width:1120px;margin:0 auto;padding:0 24px}
+@media (min-width:1000px){.shell{grid-template-columns:200px minmax(0,720px);gap:72px;justify-content:center}}
+nav.toc{display:none}
+@media (min-width:1000px){
+  nav.toc{display:block;position:sticky;top:0;align-self:start;padding-top:180px;height:100vh}
+  nav.toc ol{list-style:none;margin:0;padding:0;border-left:1px solid var(--rule)}
+  nav.toc a{display:block;padding:4px 0 4px 14px;margin-left:-1px;border-left:2px solid transparent;color:var(--muted);text-decoration:none;font-size:14.5px;line-height:1.6}
+  nav.toc a:hover{color:var(--ink)}
+  nav.toc a.on{color:var(--ink);border-left-color:var(--accent);font-weight:500}
+}
+main{min-width:0;padding-bottom:96px}
+
+/* header */
+header.top{padding:72px 0 40px;border-bottom:1px solid var(--ink)}
+.inst{margin:0 0 20px;font-size:15px;color:var(--muted)}
+h1{font-family:var(--serif);font-weight:900;color:var(--ink);margin:0;line-height:1.2;font-size:clamp(40px,7vw,64px);letter-spacing:.02em}
+h1 .sub{display:block;font-weight:500;font-size:.5em;letter-spacing:.08em;margin-top:.35em;color:var(--text)}
+.meta{margin:28px 0 0;display:flex;flex-wrap:wrap;gap:6px 32px;font-size:15px}
+.meta dt{color:var(--muted);display:inline;margin-right:8px}
+.meta dd{display:inline;margin:0;color:var(--ink)}
+
+/* sections */
+section{padding-top:56px;scroll-margin-top:16px}
+h2{font-family:var(--serif);font-weight:700;color:var(--ink);font-size:26px;line-height:1.4;margin:0 0 20px}
+h3{font-family:var(--serif);font-weight:700;color:var(--ink);font-size:19px;margin:32px 0 10px}
+p{margin:0 0 1em}
+.lead{font-family:var(--serif);font-size:21px;line-height:1.75;color:var(--ink);padding-left:18px;border-left:3px solid var(--ink);margin:24px 0}
+ul,ol{padding-left:1.4em;margin:0 0 1em}
+li{margin:.2em 0}
+
+/* two-column lists */
+.pair{display:grid;gap:32px}
+@media (min-width:640px){.pair{grid-template-columns:1fr 1fr}}
+.pair h3{margin-top:0}
+
+/* three layers */
+.layers{margin:8px 0 0;display:grid;grid-template-columns:auto 1fr;border-top:1px solid var(--rule)}
+.layers dt,.layers dd{padding:14px 0;border-bottom:1px solid var(--rule);margin:0}
+.layers dt{font-family:var(--serif);font-weight:700;color:var(--ink);padding-right:28px;font-size:18px}
+.layers dd{color:var(--text)}
+
+/* dataset + question */
+.dataset{margin:0 0 32px}
+.dataset .name{font-family:var(--serif);font-weight:700;color:var(--ink);font-size:19px;line-height:1.6;margin:0 0 6px}
+.dataset .facts{display:flex;flex-wrap:wrap;gap:4px 24px;margin:0;color:var(--muted);font-size:15px}
+.dataset .facts b{color:var(--ink);font-weight:500}
+.question{margin:0 0 8px;padding:36px 0 8px;border-top:1px solid var(--ink)}
+.question .label{font-size:14px;color:var(--muted);margin:0 0 12px}
+.question blockquote{margin:0;font-family:var(--serif);font-weight:700;color:var(--ink);font-size:clamp(22px,3.4vw,29px);line-height:1.6}
+.question blockquote .q2{display:block;margin-top:.6em;font-weight:500;font-size:.82em}
+figure.gap{margin:28px 0 8px}
+figure.gap svg{width:100%;height:auto;display:block}
+figure.gap figcaption{font-size:13px;color:var(--muted);margin-top:4px}
+
+/* collapsibles */
+details{border-bottom:1px solid var(--rule)}
+details>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:1fr 20px;align-items:center;gap:12px;padding:14px 2px}
+details>summary::-webkit-details-marker{display:none}
+details>summary::after{content:"";width:9px;height:9px;border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:rotate(45deg) translate(-2px,-2px);justify-self:center;transition:transform .18s ease}
+details[open]>summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
+details>summary:hover .s-title{color:var(--accent)}
+.s-title{font-weight:500;color:var(--ink)}
+.panel{padding:2px 0 20px}
+.group{border-top:1px solid var(--rule);margin-top:8px}
+
+/* weeks */
+.toolbar{display:flex;justify-content:flex-end;margin:-8px 0 8px}
+button.toggle{font:inherit;font-size:14px;color:var(--accent);background:none;border:1px solid var(--rule);border-radius:3px;padding:4px 12px;cursor:pointer}
+button.toggle:hover{border-color:var(--accent)}
+.module{margin:36px 0 0}
+.module h3{margin:0 0 6px;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.module h3 .mno{color:var(--accent);font-weight:700;font-size:15px;font-family:var(--sans)}
+.module h3 .rng{color:var(--muted);font-weight:400;font-size:14px;font-family:var(--sans);font-variant-numeric:tabular-nums}
+.module .weeks{border-top:1px solid var(--ink)}
+.week>summary{grid-template-columns:52px 1fr 20px}
+.wk{font-variant-numeric:tabular-nums;color:var(--accent);font-weight:700;font-size:15px}
+.week.mile .s-title{font-weight:700}
+.week .panel{padding-left:52px}
+@media (max-width:520px){.week .panel{padding-left:0}}
+.cells{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 18px}
+.cells dt{color:var(--muted);font-size:14.5px;padding-top:.15em;white-space:nowrap}
+.cells dd{margin:0}
+
+/* grading */
+.weights{margin:8px 0 0;border-top:1px solid var(--ink)}
+.w-row{display:grid;grid-template-columns:1fr 56px;gap:4px 16px;padding:16px 0;border-bottom:1px solid var(--rule)}
+.w-name{font-weight:700;color:var(--ink)}
+.w-pct{font-family:var(--serif);font-weight:900;font-size:24px;color:var(--ink);text-align:right;line-height:1.2;font-variant-numeric:tabular-nums}
+.w-bar{grid-column:1/-1;height:6px;background:var(--wash);border-radius:3px;overflow:hidden}
+.w-bar span{display:block;height:100%;background:var(--accent)}
+.w-desc{grid-column:1/-1;color:var(--text);font-size:15.5px;margin:0}
+.weights+.group{border-top:none;margin-top:0}
+
+.rule-note{padding:12px 16px;background:var(--wash);border-left:3px solid var(--ink);margin:12px 0 0}
+.stance{font-family:var(--serif);font-size:20px;line-height:1.75;color:var(--ink);font-weight:700;margin:0 0 20px}
+
+footer{margin-top:72px;padding-top:20px;border-top:1px solid var(--rule);color:var(--muted);font-size:14px}
+
+@media print{
+  body{background:#fff;font-size:11pt}
+  nav.toc,.toolbar{display:none}
+  .shell{display:block;max-width:none;padding:0}
+  section{page-break-inside:auto;padding-top:24px}
+  details>summary::after{display:none}
+  .week,.module{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<nav class="toc" aria-label="大綱目錄">
+  <ol>
+    <li><a href="#purpose">課程目的</a></li>
+    <li><a href="#prereq">修課條件與課後工作</a></li>
+    <li><a href="#layers">三層結構</a></li>
+    <li><a href="#data">資料與主軸問題</a></li>
+    <li><a href="#schedule">每週進度</a></li>
+    <li><a href="#grading">評量方式</a></li>
+    <li><a href="#ai">生成式 AI 使用政策</a></li>
+    <li><a href="#software">軟體與資料</a></li>
+    <li><a href="#faq">常見問題</a></li>
+  </ol>
+</nav>
+
+<main>
+<header class="top">
+  <p class="inst">國立中興大學　國家政策與公共事務研究所</p>
+  <h1>量化研究方法<span class="sub">思維模式與操作</span></h1>
+  <dl class="meta">
+    <div><dt>授課教師</dt><dd>潘競恒</dd></div>
+    <div><dt>上課時間</dt><dd>每週四</dd></div>
+  </dl>
+</header>
+
+<section id="purpose">
+  <h2>這門課的目的</h2>
+  <p>無論在中央部會、地方政府、國會辦公室、智庫或企業，工作上往往需要讀到數字：民意調查、施政滿意度、績效指標、委外研究報告、政策評估結論、學術期刊論文。</p>
+  <p class="lead">這些數字有一個共同特徵——它們看起來都有憑有據。</p>
+  <p>這門課的目的，是培養你有判斷這些數字的能力。從數字是怎麼被生產出來的、在哪些環節可能出錯、以及數字推導出結論的邊界在哪。</p>
+  <p>如果你的碩士論文會用到量化方法，這門課同時給你執行一份基礎分析所需的完整操作技能。如果不做量化論文，你學的是未來用得到的審閱與溝通統計數據的能力。</p>
+</section>
+
+<section id="prereq">
+  <h2>修課條件與課後工作</h2>
+  <div class="pair">
+    <div>
+      <h3>你不需要具備的條件</h3>
+      <ul>
+        <li>不需要統計背景</li>
+        <li>不需要數學好</li>
+        <li>不需要會寫程式</li>
+      </ul>
+      <p>這門課預設你從零開始。所有必要觸及的統計概念都會從簡。</p>
+    </div>
+    <div>
+      <h3>你需要每週投入的課後工作</h3>
+      <ul>
+        <li>維護當週的 SPSS 操作與分析日誌</li>
+        <li>自問「為什麼我要這樣操作？」若不清楚請尋求解答。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="layers">
+  <h2>課程的三層結構</h2>
+  <p>每一週的內容大致如三層蛋糕：</p>
+  <dl class="layers">
+    <dt>概念</dt><dd>這一週的核心觀念</dd>
+    <dt>操作</dt><dd>在 SPSS 裡實際做出來</dd>
+    <dt>延伸</dt><dd>做量化論文的必要能力</dd>
+  </dl>
+</section>
+
+<section id="data">
+  <h2>整學期只用一份資料、一個主軸問題</h2>
+  <div class="dataset">
+    <p class="name">臺灣社會變遷基本調查 第八期第四次（2023）<br>問卷一：國家認同與公民權組</p>
+    <p class="facts"><span>中央研究院社會學研究所執行</span><span>全國代表性面訪樣本</span><span><b>n = 1,563</b></span><span><b>257</b> 個變項</span></p>
+  </div>
+  <div class="question">
+    <p class="label">主軸問題</p>
+    <blockquote>
+      民眾在觀念上認為公民「應該」參與公共事務，跟他們說自己「會不會」去參加政府辦的政策討論會議，是不是同一回事？
+      <span class="q2">如果不是，這個落差由什麼解釋？</span>
+    </blockquote>
+    <figure class="gap" aria-hidden="true">
+      <svg viewBox="0 0 640 210" role="img">
+        <line x1="20" y1="170.5" x2="620" y2="170.5" stroke="#1F2326" stroke-width="1"/>
+        <path d="M20.0,167.8 L25.0,167.4 L30.0,166.8 L35.0,166.2 L40.0,165.4 L45.0,164.5 L50.0,163.5 L55.0,162.3 L60.0,161.0 L65.0,159.4 L70.0,157.7 L75.0,155.8 L80.0,153.6 L85.0,151.3 L90.0,148.7 L95.0,145.8 L100.0,142.8 L105.0,139.5 L110.0,135.9 L115.0,132.2 L120.0,128.2 L125.0,124.1 L130.0,119.8 L135.0,115.4 L140.0,110.9 L145.0,106.3 L150.0,101.8 L155.0,97.3 L160.0,92.9 L165.0,88.6 L170.0,84.6 L175.0,80.8 L180.0,77.3 L185.0,74.2 L190.0,71.5 L195.0,69.2 L200.0,67.4 L205.0,66.1 L210.0,65.3 L215.0,65.0 L220.0,65.3 L225.0,66.1 L230.0,67.4 L235.0,69.2 L240.0,71.5 L245.0,74.2 L250.0,77.3 L255.0,80.8 L260.0,84.6 L265.0,88.6 L270.0,92.9 L275.0,97.3 L280.0,101.8 L285.0,106.3 L290.0,110.9 L295.0,115.4 L300.0,119.8 L305.0,124.1 L310.0,128.2 L315.0,132.2 L320.0,135.9 L325.0,139.5 L330.0,142.8 L335.0,145.8 L340.0,148.7 L345.0,151.3 L350.0,153.6 L355.0,155.8 L360.0,157.7 L365.0,159.4 L370.0,161.0 L375.0,162.3 L380.0,163.5 L385.0,164.5 L390.0,165.4 L395.0,166.2 L400.0,166.8 L405.0,167.4 L410.0,167.8 L415.0,168.2 L420.0,168.6 L425.0,168.8 L430.0,169.1 L435.0,169.2 L440.0,169.4 L445.0,169.5 L450.0,169.6 L455.0,169.7 L460.0,169.8 L465.0,169.8 L470.0,169.9 L475.0,169.9 L480.0,169.9 L485.0,169.9 L490.0,170.0 L495.0,170.0 L500.0,170.0 L505.0,170.0 L510.0,170.0 L515.0,170.0 L520.0,170.0 L525.0,170.0 L530.0,170.0 L535.0,170.0 L540.0,170.0 L545.0,170.0 L550.0,170.0 L555.0,170.0 L560.0,170.0 L565.0,170.0 L570.0,170.0 L575.0,170.0 L580.0,170.0 L585.0,170.0 L590.0,170.0 L595.0,170.0 L600.0,170.0 L605.0,170.0 L610.0,170.0 L615.0,170.0 L620.0,170.0" fill="rgba(140,150,158,.10)" stroke="#8C969E" stroke-width="1.6" stroke-dasharray="5 4"/>
+        <path d="M20.0,170.0 L25.0,170.0 L30.0,170.0 L35.0,170.0 L40.0,170.0 L45.0,170.0 L50.0,170.0 L55.0,170.0 L60.0,170.0 L65.0,170.0 L70.0,170.0 L75.0,170.0 L80.0,170.0 L85.0,170.0 L90.0,170.0 L95.0,170.0 L100.0,170.0 L105.0,170.0 L110.0,170.0 L115.0,170.0 L120.0,170.0 L125.0,170.0 L130.0,170.0 L135.0,170.0 L140.0,170.0 L145.0,170.0 L150.0,170.0 L155.0,170.0 L160.0,170.0 L165.0,170.0 L170.0,170.0 L175.0,170.0 L180.0,169.9 L185.0,169.9 L190.0,169.9 L195.0,169.8 L200.0,169.8 L205.0,169.7 L210.0,169.6 L215.0,169.5 L220.0,169.3 L225.0,169.1 L230.0,168.9 L235.0,168.6 L240.0,168.2 L245.0,167.8 L250.0,167.2 L255.0,166.5 L260.0,165.7 L265.0,164.7 L270.0,163.6 L275.0,162.2 L280.0,160.6 L285.0,158.8 L290.0,156.7 L295.0,154.3 L300.0,151.6 L305.0,148.5 L310.0,145.1 L315.0,141.4 L320.0,137.3 L325.0,132.9 L330.0,128.2 L335.0,123.1 L340.0,117.8 L345.0,112.3 L350.0,106.6 L355.0,100.7 L360.0,94.9 L365.0,89.0 L370.0,83.3 L375.0,77.8 L380.0,72.5 L385.0,67.7 L390.0,63.3 L395.0,59.4 L400.0,56.1 L405.0,53.5 L410.0,51.6 L415.0,50.4 L420.0,50.0 L425.0,50.4 L430.0,51.6 L435.0,53.5 L440.0,56.1 L445.0,59.4 L450.0,63.3 L455.0,67.7 L460.0,72.5 L465.0,77.8 L470.0,83.3 L475.0,89.0 L480.0,94.9 L485.0,100.7 L490.0,106.6 L495.0,112.3 L500.0,117.8 L505.0,123.1 L510.0,128.2 L515.0,132.9 L520.0,137.3 L525.0,141.4 L530.0,145.1 L535.0,148.5 L540.0,151.6 L545.0,154.3 L550.0,156.7 L555.0,158.8 L560.0,160.6 L565.0,162.2 L570.0,163.6 L575.0,164.7 L580.0,165.7 L585.0,166.5 L590.0,167.2 L595.0,167.8 L600.0,168.2 L605.0,168.6 L610.0,168.9 L615.0,169.1 L620.0,169.3" fill="rgba(62,85,102,.08)" stroke="#3E5566" stroke-width="1.8"/>
+        <line x1="215" y1="62" x2="215" y2="170" stroke="#8C969E" stroke-width="1" stroke-dasharray="2 3"/>
+        <line x1="420" y1="48" x2="420" y2="170" stroke="#3E5566" stroke-width="1" stroke-dasharray="2 3"/>
+        <line x1="215" y1="30" x2="420" y2="30" stroke="#1F2326" stroke-width="1"/>
+        <line x1="215" y1="24" x2="215" y2="36" stroke="#1F2326" stroke-width="1"/>
+        <line x1="420" y1="24" x2="420" y2="36" stroke="#1F2326" stroke-width="1"/>
+        <text x="317" y="20" text-anchor="middle" font-size="15" fill="#000" font-family="Noto Serif TC,serif" font-weight="700">落差？</text>
+        <text x="120" y="92" text-anchor="middle" font-size="14" fill="#676E74" font-family="Noto Sans TC,sans-serif">「會去參加」</text>
+        <text x="520" y="80" text-anchor="middle" font-size="14" fill="#3E5566" font-family="Noto Sans TC,sans-serif">「應該參與」</text>
+        <text x="20" y="194" font-size="13" fill="#676E74" font-family="Noto Sans TC,sans-serif">低</text>
+        <text x="620" y="194" text-anchor="end" font-size="13" fill="#676E74" font-family="Noto Sans TC,sans-serif">高</text>
+      </svg>
+      <figcaption>示意圖，非實際資料分布；兩題的題目與量尺並不相同，能否直接比較本身就是測量問題。</figcaption>
+    </figure>
+  </div>
+  <p>這是政治、公行的真實研究問題。政府近年大量推動公民參與、審議民主、開放政府，但參與者永遠是同一群人。我們嘗試用這份資料回答：那群人是誰？為什麼其他人不參與？</p>
+</section>
+
+<section id="schedule">
+  <h2>每週進度</h2>
+  <div class="toolbar"><button type="button" class="toggle" id="toggleWeeks" aria-controls="weeks">展開全部週次</button></div>
+  <div id="weeks">
+    <div class="module">
+      <h3><span class="mno">模組一</span>資料是怎麼來的<span class="rng">W1–W5</span></h3>
+      <div class="weeks">
+        <details class="week"><summary><span class="wk">W1</span><span class="s-title">課程導論與研究倫理</span></summary><div class="panel"><dl class="cells"><dt>概念</dt><dd>數字能回答與不能回答的問題；學術誠信與資料使用規範</dd><dt>操作</dt><dd>申請 SRDA 帳號；SPSS 環境設定；開啟資料檔</dd><dt>延伸</dt><dd>檢視抽樣設計相關變項</dd></dl></div></details>
+        <details class="week"><summary><span class="wk">W2</span><span class="s-title">從概念到數字</span></summary><div class="panel"><dl class="cells"><dt>概念</dt><dd>概念型定義與操作型定義；測量層次；測量如何決定結論的邊界</dd><dt>操作</dt><dd>對照問卷本與資料檔；判讀變數標籤與數值標籤</dd><dt>延伸</dt><dd>比較 2003／2013／2023 三波同一題組的文字差異</dd></dl></div></details>
+        <details class="week"><summary><span class="wk">W3</span><span class="s-title">這些數字代表誰</span></summary><div class="panel"><dl class="cells"><dt>概念</dt><dd>母體、抽樣框、代表性；加權在做什麼</dd><dt>操作</dt><dd>以「資料 &gt; 加權觀察值」進行加權；比較加權前後的次數分配</dd><dt>延伸</dt><dd>計算有效樣本數與設計效果</dd></dl></div></details>
+        <details class="week"><summary><span class="wk">W4</span><span class="s-title">資料清理的四個陷阱</span></summary><div class="panel"><dl class="cells"><dt>概念</dt><dd>遺漏值的不同成因；反向計分；跳答與拒答的差別</dd><dt>操作</dt><dd>宣告遺漏值；以「轉換 &gt; 重新編碼成不同變數」處理反向題；建立分析用變數</dd><dt>延伸</dt><dd>比較不同遺漏值處理方式對樣本數的影響</dd></dl></div></details>
+        <details class="week"><summary><span class="wk">W5</span><span class="s-title">讀一篇量化論文</span></summary><div class="panel"><dl class="cells"><dt>概念</dt><dd>審閱一份量化研究的六個著力點</dd><dt>操作</dt><dd>用我們的資料複製該論文的描述統計</dd><dt>延伸</dt><dd>檢查該論文的樣本流失與遺漏值報告是否完整</dd></dl></div></details>
+      </div>
+    </div>
+    <div class="module">
+      <h3><span class="mno">模組二</span>從描述到推論<span class="rng">W6–W8</span></h3>
+      <div class="weeks">
+        <details class="week"><summary><span class="wk">W6</span><span class="s-title">描述與呈現</span></summary><div class="panel"><dl class="cells"><dt>概念</dt><dd>平均數在什麼情況下會誤導；視覺化是論證不是裝飾</dd><dt>操作</dt><dd>次數分配、描述統計、長條圖／直方圖／箱型圖</dd><dt>延伸</dt><dd>加權前後的圖表對照</dd></dl></div></details>
+        <details class="week"><summary><span class="wk">W7</span><span class="s-title">不確定性的邏輯</span></summary><div class="panel"><dl class="cells"><dt>概念</dt><dd>抽樣誤差；p 值不等於重要性；兩類錯誤；信賴區間；效果量</dd><dt>操作</dt><dd>判讀輸出報表中的信賴區間</dd><dt>延伸</dt><dd>統計檢定力；樣本量對次群體分析的限制</dd></dl></div></details>
+        <details class="week mile"><summary><span class="wk">W8</span><span class="s-title">期中工作坊</span></summary><div class="panel"><dl class="cells"><dt>概念</dt><dd>先登錄、後分析：為什麼分析計畫要寫在看到結果之前</dd><dt>操作</dt><dd>撰寫分析計畫書；AI 稽核演練</dd></dl></div></details>
+      </div>
+    </div>
+    <div class="module">
+      <h3><span class="mno">模組三</span>關聯與比較<span class="rng">W9–W12</span></h3>
+      <div class="weeks">
+        <details class="week"><summary><span class="wk">W9</span><span class="s-title">兩個類別變項的關聯</span></summary><div class="panel"><dl class="cells"><dt>概念</dt><dd>有關聯不等於有因果；效果量為什麼必要</dd><dt>操作</dt><dd>交叉表、卡方檢定、Cramer's V、調整後殘差</dd><dt>延伸</dt><dd>三向交叉表與辛普森悖論</dd></dl></div></details>
+        <details class="week"><summary><span class="wk">W10</span><span class="s-title">比較平均數</span></summary><div class="panel"><dl class="cells"><dt>概念</dt><dd>組間差異的推論邏輯；為什麼跑很多次檢定會出事</dd><dt>操作</dt><dd>獨立樣本 t 檢定；單因子變異數分析與事後檢定</dd><dt>延伸</dt><dd>效果量計算；變異數同質性的判讀</dd></dl></div></details>
+        <details class="week"><summary><span class="wk">W11</span><span class="s-title">測量品質：信度</span></summary><div class="panel"><dl class="cells"><dt>概念</dt><dd>量表為什麼要檢驗；信度係數是診斷不是儀式</dd><dt>操作</dt><dd>信度分析；反向計分對信度的影響</dd><dt>延伸</dt><dd>項目分析；探索性因素分析初步</dd></dl></div></details>
+        <details class="week"><summary><span class="wk">W12</span><span class="s-title">相關、共變、混淆</span></summary><div class="panel"><dl class="cells"><dt>概念</dt><dd>為什麼相關不是因果；混淆變項如何製造假關聯</dd><dt>操作</dt><dd>相關矩陣；Pearson 與 Spearman 的選擇</dd><dt>延伸</dt><dd>偏相關</dd></dl></div></details>
+      </div>
+    </div>
+    <div class="module">
+      <h3><span class="mno">模組四</span>建立模型<span class="rng">W13–W16</span></h3>
+      <div class="weeks">
+        <details class="week"><summary><span class="wk">W13</span><span class="s-title">迴歸 I：迴歸在做什麼</span></summary><div class="panel"><dl class="cells"><dt>概念</dt><dd>條件平均的概念；解釋力的意義與誤用</dd><dt>操作</dt><dd>簡單線性迴歸；判讀係數與 R²</dd><dt>延伸</dt><dd>殘差圖診斷</dd></dl></div></details>
+        <details class="week"><summary><span class="wk">W14</span><span class="s-title">迴歸 II：控制的意義與極限</span></summary><div class="panel"><dl class="cells"><dt>概念</dt><dd>「控制其他變項」到底控制了什麼；加控制變項不一定更接近真相</dd><dt>操作</dt><dd>多元迴歸；虛擬變項；共線性診斷</dd><dt>延伸</dt><dd>階層式模型比較</dd></dl></div></details>
+        <details class="week"><summary><span class="wk">W15</span><span class="s-title">二元結果的分析</span></summary><div class="panel"><dl class="cells"><dt>概念</dt><dd>勝算比的三個常見誤讀</dd><dt>操作</dt><dd>線性機率模型</dd><dt>延伸</dt><dd>以 jamovi 執行二元邏輯迴歸並與線性機率模型對照</dd></dl></div></details>
+        <details class="week mile"><summary><span class="wk">W16</span><span class="s-title">成果發表與口頭辯護</span></summary><div class="panel"><dl class="cells"><dt>操作</dt><dd>分組報告與提問</dd></dl></div></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="grading">
+  <h2>評量方式</h2>
+  <div class="weights">
+    <div class="w-row"><span class="w-name">分析日誌</span><span class="w-pct">25%</span><div class="w-bar"><span style="width:25%"></span></div><p class="w-desc">每週累積。記錄你做了什麼、AI 給了什麼建議、以及你<strong>為什麼採納或不採納</strong>它的建議。</p></div>
+    <div class="w-row"><span class="w-name">期中分析計畫書</span><span class="w-pct">20%</span><div class="w-bar"><span style="width:20%"></span></div><p class="w-desc">第 8 週提交。在跑任何檢定之前，先寫下你的假設、變數定義與分析步驟。</p></div>
+    <div class="w-row"><span class="w-name">AI 稽核與論文審查作業</span><span class="w-pct">25%</span><div class="w-bar"><span style="width:25%"></span></div><p class="w-desc">找出一份 AI 產出報告與一篇期刊論文中的問題，並說明理由。</p></div>
+    <div class="w-row"><span class="w-name">期末報告</span><span class="w-pct">30%</span><div class="w-bar"><span style="width:30%"></span></div><p class="w-desc">品質可做為論文的分析章節初稿，或機關委外民調的審查意見書。</p></div>
+  </div>
+  <div class="group">
+    <details>
+      <summary><span class="s-title">關於分析計畫書：本課程最重要的單一作業</span></summary>
+      <div class="panel">
+        <p>你必須在<strong>看到分析結果之前</strong>，明確寫下你的假設、變數操作化方式、預定使用的檢定，以及萬一結果不顯著你打算怎麼處理。</p>
+        <p>之後任何偏離／修改原計畫的做法都必須在期末報告中揭露並說明理由。<strong>切勿隱瞞偏離／修改，這是訓練的一部分。</strong></p>
+        <p>這個要求的目的，是防止一種在學術界和政策界都很普遍的不良現象：先跑一堆模型，再挑出最好看的那個寫成論文，並假裝它是從一開始就如此假設。</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<section id="ai">
+  <h2>生成式 AI 使用政策</h2>
+  <p class="stance">你可以用 AI，而且應該用。但你必須有能力解釋它產出的數字，並為它產出的每一個結論負責。</p>
+  <div class="group">
+    <details>
+      <summary><span class="s-title">允許</span></summary>
+      <div class="panel">
+        <ul>
+          <li>解釋概念、翻譯術語</li>
+          <li>詢問 SPSS 的操作步驟</li>
+          <li>協助判讀輸出報表</li>
+          <li>檢查你的文字表達</li>
+        </ul>
+      </div>
+    </details>
+    <details open>
+      <summary><span class="s-title">要求</span></summary>
+      <div class="panel">
+        <ol>
+          <li><strong>學習日誌</strong>：當週學習要點。所有實質性的 AI 互動都要記錄，你問了什麼、它回答什麼、你採納或不採納的理由。</li>
+          <li><strong>可驗證性</strong>：AI 告訴你的任何數字，你都必須能在 SPSS 裡自己跑出來。跑不出來就不能寫進報告。</li>
+          <li><strong>資料保護</strong>：
+            <div class="rule-note"><strong>不得將 TSCS 原始資料檔上傳至任何雲端 AI 服務。</strong>這份資料的使用條款禁止再散布，上傳到第三方服務可能構成違反。你可以描述變數、貼上輸出的統計報表，但不能上傳資料檔本身。</div>
+          </li>
+        </ol>
+      </div>
+    </details>
+    <details>
+      <summary><span class="s-title">你會發現</span></summary>
+      <div class="panel">
+        <p>課程中你會親眼看到 AI 在統計上犯下的系統性錯誤：把不顯著說成「證明兩者相同」、誤讀交互作用、編造不存在的 SPSS 選單路徑等。</p>
+        <p>第 8 週的 AI 稽核作業就是專門訓練這件事。<strong>能抓出 AI 的錯誤，是這門課要給你的核心能力之一。</strong></p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<section id="software">
+  <h2>軟體與資料</h2>
+  <dl class="layers">
+    <dt>SPSS 30</dt><dd>學校授權。本課程主要工具，第 1 週會協助安裝。</dd>
+    <dt>jamovi</dt><dd>免費。僅第 15 週的延伸內容使用，可直接開啟 SPSS 資料檔。</dd>
+  </dl>
+  <h3>資料取得（第 1 週一起完成）</h3>
+  <ol>
+    <li>至學術調查研究資料庫（SRDA）註冊一般會員</li>
+    <li>檢索「臺灣社會變遷基本調查計畫 2023 第八期第四次：國家認同與公民權組」</li>
+    <li>下載資料檔與問卷本</li>
+  </ol>
+  <p>本資料集開放給註冊一般會員申請下載。</p>
+  <div class="rule-note"><strong>問卷本一定要下載。</strong>這門課有很大一部分是教你如何對照問卷原文來判斷一個變數到底測量什麼。只看資料檔不看問卷本，是問卷量化研究最常見的錯誤來源。</div>
+</section>
+
+<section id="faq">
+  <h2>常見問題</h2>
+  <div class="group">
+    <details>
+      <summary><span class="s-title">我的論文不打算用量化方法，這門課對我有用嗎？</span></summary>
+      <div class="panel"><p>有，而且可能比你想的更有用。你未來讀到的政策研究、委外報告、民調新聞，大部分是量化的。你不需要會生產它們，但你需要有能力判斷它們可不可信。這門課有四分之一的評量比重直接放在審查能力上。</p></div>
+    </details>
+    <details>
+      <summary><span class="s-title">我完全沒有統計基礎，跟得上嗎？</span></summary>
+      <div class="panel"><p>課程預設全班從零開始。前 5 週完全不碰統計檢定，先處理「資料是怎麼來的」這件事——這部分不需要任何數學基礎，但它是後面所有內容的地基。</p></div>
+    </details>
+    <details>
+      <summary><span class="s-title">可以用自己的資料做期末報告嗎？</span></summary>
+      <div class="panel"><p>原則上不行。全班使用同一份資料是這門課的設計核心，它讓我們可以在同一個脈絡下累積、比較、互相審查。</p></div>
+    </details>
+    <details>
+      <summary><span class="s-title">AI 可以幫我做多少？</span></summary>
+      <div class="panel"><p>雖技術上生成式 AI 可以幫你做完全部，但期末的口頭報告會針對你的每一個分析決策提問，你必須有能力清楚答辯。日誌的設計，就是讓「自己思辨過」和「只叫 AI 想」在成績上有明確差別。</p></div>
+    </details>
+  </div>
+</section>
+
+<footer>本大綱可能隨課程進行微調，任何更動會在課堂上說明並更新此頁面。</footer>
+</main>
+</div>
+
+<script>
+(function(){
+  var weeks = Array.prototype.slice.call(document.querySelectorAll('details.week'));
+  var btn = document.getElementById('toggleWeeks');
+  function sync(){
+    var allOpen = weeks.every(function(d){return d.open});
+    btn.textContent = allOpen ? '收合全部週次' : '展開全部週次';
+    btn.setAttribute('aria-expanded', allOpen);
+  }
+  btn.addEventListener('click', function(){
+    var open = !weeks.every(function(d){return d.open});
+    weeks.forEach(function(d){d.open = open});
+    sync();
+  });
+  weeks.forEach(function(d){d.addEventListener('toggle', sync)});
+  sync();
+
+  /* print: expand every collapsible, restore afterwards */
+  var saved = [];
+  window.addEventListener('beforeprint', function(){
+    saved = Array.prototype.map.call(document.querySelectorAll('details'), function(d){var s=d.open; d.open=true; return [d,s];});
+  });
+  window.addEventListener('afterprint', function(){
+    saved.forEach(function(p){p[0].open = p[1]}); sync();
+  });
+
+  /* table of contents: mark current section */
+  var links = {};
+  document.querySelectorAll('nav.toc a').forEach(function(a){links[a.getAttribute('href').slice(1)] = a});
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          Object.keys(links).forEach(function(k){links[k].classList.remove('on')});
+          if(links[e.target.id]) links[e.target.id].classList.add('on');
+        }
+      });
+    }, {rootMargin:'-20% 0px -70% 0px'});
+    document.querySelectorAll('main section').forEach(function(s){io.observe(s)});
+  }
+})();
+</script>
+</body>
+</html>
