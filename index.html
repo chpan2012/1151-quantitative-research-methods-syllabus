@@ -82,12 +82,14 @@ li{margin:.2em 0}
 /* dataset + question */
 .dataset{margin:0 0 32px}
 .dataset .name{font-family:var(--serif);font-weight:700;color:var(--ink);font-size:19px;line-height:1.6;margin:0 0 6px}
+.dataset .name a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent-soft);text-underline-offset:4px;text-decoration-thickness:1px}
+.dataset .name a:hover{text-decoration-color:var(--accent);color:var(--accent)}
 .dataset .facts{display:flex;flex-wrap:wrap;gap:4px 24px;margin:0;color:var(--muted);font-size:15px}
 .dataset .facts b{color:var(--ink);font-weight:500}
 .question{margin:0 0 8px;padding:36px 0 8px;border-top:1px solid var(--ink)}
 .question .label{font-size:14px;color:var(--muted);margin:0 0 12px}
-.question blockquote{margin:0;font-family:var(--serif);font-weight:700;color:var(--ink);font-size:clamp(22px,3.4vw,29px);line-height:1.6}
-.question blockquote .q2{display:block;margin-top:.6em;font-weight:500;font-size:.82em}
+.question blockquote{margin:0;font-family:var(--serif);font-weight:700;color:var(--ink);font-size:19px;line-height:1.6}
+.question blockquote .q2{display:block;margin-top:.4em;font-weight:500}
 figure.gap{margin:28px 0 8px}
 figure.gap svg{width:100%;height:auto;display:block}
 figure.gap figcaption{font-size:13px;color:var(--muted);margin-top:4px}
@@ -129,7 +131,15 @@ button.toggle:hover{border-color:var(--accent)}
 .w-bar{grid-column:1/-1;height:6px;background:var(--wash);border-radius:3px;overflow:hidden}
 .w-bar span{display:block;height:100%;background:var(--accent)}
 .w-desc{grid-column:1/-1;color:var(--text);font-size:15.5px;margin:0}
-.weights+.group{border-top:none;margin-top:0}
+details.more{border-bottom:none;margin-top:4px}
+.w-row details.more{grid-column:1/-1}
+details.more>summary{grid-template-columns:auto 20px;justify-content:start;padding:4px 0}
+details.more .s-title{font-size:15px;color:var(--accent)}
+details.more .panel{font-size:15.5px;padding:6px 0 0 14px;border-left:2px solid var(--rule)}
+details.more .panel p:last-child{margin-bottom:0}
+details.more.sub{margin-top:14px}
+.week .panel details.more .panel{padding-left:14px}
+details.more .cells{margin:0 0 .8em}
 
 .rule-note{padding:12px 16px;background:var(--wash);border-left:3px solid var(--ink);margin:12px 0 0}
 .stance{font-family:var(--serif);font-size:20px;line-height:1.75;color:var(--ink);font-weight:700;margin:0 0 20px}
@@ -197,7 +207,7 @@ footer{margin-top:72px;padding-top:20px;border-top:1px solid var(--rule);color:v
       <h3>你需要每週投入的課後工作</h3>
       <ul>
         <li>維護當週的 SPSS 操作與分析日誌</li>
-        <li>自問「為什麼我要這樣操作？」若不清楚，請尋求解答。</li>
+        <li>自問「為什麼我要這樣操作？」若不清楚請尋求解答。</li>
       </ul>
     </div>
   </div>
@@ -211,12 +221,13 @@ footer{margin-top:72px;padding-top:20px;border-top:1px solid var(--rule);color:v
     <dt>操作</dt><dd>在 SPSS 裡實際做出來</dd>
     <dt>延伸</dt><dd>做量化論文的必要能力</dd>
   </dl>
+  <p style="margin-top:16px">已有統計、軟體或調查實務基礎的同學，【延伸】欄為要求項目，不是選配。</p>
 </section>
 
 <section id="data">
   <h2>整學期只用一份資料、一個主軸問題</h2>
   <div class="dataset">
-    <p class="name">臺灣社會變遷基本調查 第八期第四次（2023）<br>問卷一：國家認同與公民權組</p>
+    <p class="name"><a href="https://srda.sinica.edu.tw/search/metadata/detail/C00401_1" target="_blank" rel="noopener">臺灣社會變遷基本調查 第八期第四次（2023）</a><br>問卷一：國家認同與公民權組</p>
     <p class="facts"><span>中央研究院社會學研究所執行</span><span>全國代表性面訪樣本</span><span><b>n = 1,563</b></span><span><b>257</b> 個變項</span></p>
   </div>
   <div class="question">
@@ -266,7 +277,16 @@ footer{margin-top:72px;padding-top:20px;border-top:1px solid var(--rule);color:v
       <div class="weeks">
         <details class="week"><summary><span class="wk">W6</span><span class="s-title">描述與呈現</span></summary><div class="panel"><dl class="cells"><dt>概念</dt><dd>平均數在什麼情況下會誤導；視覺化是論證不是裝飾</dd><dt>操作</dt><dd>次數分配、描述統計、長條圖／直方圖／箱型圖</dd><dt>延伸</dt><dd>加權前後的圖表對照</dd></dl></div></details>
         <details class="week"><summary><span class="wk">W7</span><span class="s-title">不確定性的邏輯</span></summary><div class="panel"><dl class="cells"><dt>概念</dt><dd>抽樣誤差；p 值不等於重要性；兩類錯誤；信賴區間；效果量</dd><dt>操作</dt><dd>判讀輸出報表中的信賴區間</dd><dt>延伸</dt><dd>統計檢定力；樣本量對次群體分析的限制</dd></dl></div></details>
-        <details class="week mile"><summary><span class="wk">W8</span><span class="s-title">期中工作坊</span></summary><div class="panel"><dl class="cells"><dt>概念</dt><dd>先登錄、後分析：為什麼分析計畫要寫在看到結果之前</dd><dt>操作</dt><dd>撰寫分析計畫書；AI 稽核演練</dd></dl></div></details>
+        <details class="week mile" id="w8"><summary><span class="wk">W8</span><span class="s-title">期中工作坊</span></summary><div class="panel"><dl class="cells"><dt>概念</dt><dd>先登錄、後分析：為什麼分析計畫要寫在看到結果之前</dd><dt>操作</dt><dd>撰寫分析計畫書；AI 稽核演練</dd></dl><details class="more sub"><summary><span class="s-title">AI 稽核演練：四個錯誤層級</span></summary><div class="panel">
+          <p>教師提供一份由生成式 AI 以本課資料產出的分析報告，其中四個層級都藏有錯誤：</p>
+          <dl class="cells">
+            <dt>資料層</dt><dd>資料在分析之前是否被正確處理。</dd>
+            <dt>計算層</dt><dd>報告中的數字本身是否正確。</dd>
+            <dt>推論層</dt><dd>統計結果是否被正確解讀。</dd>
+            <dt>概念層</dt><dd>結論是否超出研究設計所能支持的範圍。</dd>
+          </dl>
+          <p>錯誤在哪裡，由各組自行找出。可以請 AI 協助，但每一項指認都必須自行驗證；AI 對 AI 報告的判斷同樣會出錯。</p>
+        </div></details></div></details>
       </div>
     </div>
     <div class="module">
@@ -293,20 +313,20 @@ footer{margin-top:72px;padding-top:20px;border-top:1px solid var(--rule);color:v
 <section id="grading">
   <h2>評量方式</h2>
   <div class="weights">
-    <div class="w-row"><span class="w-name">分析日誌</span><span class="w-pct">25%</span><div class="w-bar"><span style="width:25%"></span></div><p class="w-desc">每週累積。記錄你做了什麼、AI 給了什麼建議、以及你<strong>為什麼採納或不採納</strong>它的建議。</p></div>
-    <div class="w-row"><span class="w-name">期中分析計畫書</span><span class="w-pct">20%</span><div class="w-bar"><span style="width:20%"></span></div><p class="w-desc">第 8 週提交。在跑任何檢定之前，先寫下你的假設、變數定義與分析步驟。</p></div>
-    <div class="w-row"><span class="w-name">AI 稽核與論文審查作業</span><span class="w-pct">25%</span><div class="w-bar"><span style="width:25%"></span></div><p class="w-desc">找出一份 AI 產出報告與一篇期刊論文中的問題，並說明理由。</p></div>
-    <div class="w-row"><span class="w-name">期末報告</span><span class="w-pct">30%</span><div class="w-bar"><span style="width:30%"></span></div><p class="w-desc">品質可做為論文的分析章節初稿，或機關委外民調的審查意見書。</p></div>
-  </div>
-  <div class="group">
-    <details>
-      <summary><span class="s-title">關於分析計畫書：本課程最重要的單一作業</span></summary>
-      <div class="panel">
+    <div class="w-row"><span class="w-name">分析日誌</span><span class="w-pct">25%</span><div class="w-bar"><span style="width:25%"></span></div><p class="w-desc">每週累積。記錄你做了什麼、AI 給了什麼建議、以及你<strong>為什麼採納或不採納</strong>它的建議。</p><p class="w-desc">建立一份 Google Doc，每週一個分頁（分頁重新命名，例如「第一週0911」），課中可當作筆記本、課後盡快整理維護。日誌請與教師共享（<a href="mailto:chpan2012@gmail.com">chpan2012@gmail.com</a>）並開放編輯權限。</p></div>
+    <div class="w-row"><span class="w-name">期中分析計畫書</span><span class="w-pct">20%</span><div class="w-bar"><span style="width:20%"></span></div><p class="w-desc">第 8 週提交。在跑任何檢定之前，先寫下你的假設、變數定義與分析步驟。</p>
+      <details class="more"><summary><span class="s-title">關於分析計畫書：本課程最重要的單一作業</span></summary><div class="panel">
         <p>你必須在<strong>看到分析結果之前</strong>，明確寫下你的假設、變數操作化方式、預定使用的檢定，以及萬一結果不顯著你打算怎麼處理。</p>
         <p>之後任何偏離／修改原計畫的做法都必須在期末報告中揭露並說明理由。<strong>切勿隱瞞偏離／修改，這是訓練的一部分。</strong></p>
         <p>這個要求的目的，是防止一種在學術界和政策界都很普遍的不良現象：先跑一堆模型，再挑出最好看的那個寫成論文，並假裝它是從一開始就如此假設。</p>
-      </div>
-    </details>
+      </div></details></div>
+    <div class="w-row"><span class="w-name">AI 稽核與論文審查作業</span><span class="w-pct">25%</span><div class="w-bar"><span style="width:25%"></span></div><p class="w-desc">以小組為單位，分兩部分：稽核一份含錯誤的 AI 分析報告，以及審查一篇期刊論文的研究方法。兩部分評量同一種能力：指出問題、提出證據、寫出可執行的修正。</p>
+      <details class="more"><summary><span class="s-title">關於 AI 稽核與論文審查作業</span></summary><div class="panel">
+        <p><strong>AI 報告稽核（W8 課堂完成）</strong>：找出報告中分屬四個層級的錯誤（見<a href="#w8">每週進度 W8</a>）。每個錯誤須寫出位置、層級、錯誤理由與正確做法；涉及數字者，須附上自行在 SPSS 跑出的結果。</p>
+        <p><strong>期刊論文審查（第 9 週上課前上傳 iLearning）</strong>：依 W5 的六個著力點，每點寫出發現、證據（頁碼）與一句可執行的審查意見。</p>
+        <p><strong>評分重點</strong>：理由是否成立、修正要求是否具體可行。只寫「這裡怪怪的」不計分。組內每位成員都須能說明本組的每一項指認。</p>
+      </div></details></div>
+    <div class="w-row"><span class="w-name">期末報告</span><span class="w-pct">30%</span><div class="w-bar"><span style="width:30%"></span></div><p class="w-desc">品質可做為論文的分析章節初稿，或機關委外民調的審查意見書。</p></div>
   </div>
 </section>
 
@@ -375,12 +395,23 @@ footer{margin-top:72px;padding-top:20px;border-top:1px solid var(--rule);color:v
       <div class="panel"><p>課程預設全班從零開始。前 5 週完全不碰統計檢定，先處理「資料是怎麼來的」這件事——這部分不需要任何數學基礎，但它是後面所有內容的地基。</p></div>
     </details>
     <details>
+      <summary><span class="s-title">我有統計基礎，或工作上就在處理數據，這門課對我還有什麼？</span></summary>
+      <div class="panel">
+        <p>視你的基礎是什麼而定。</p>
+        <p><strong>修過統計但不熟 SPSS</strong>：概念欄對你多半是複習，操作欄才是新的。你的重心請放在延伸欄，以及「這個方法用在這份資料上會在哪裡失效」這類判斷。</p>
+        <p><strong>工作上以 Excel 處理數據</strong>：你已經會的是整理與呈現。這門課要給你的是另一件事——抽樣與加權、遺漏值的成因，以及資料處理的可重現性：不動原始檔、每一步留下紀錄、任何數字都能重跑出來。這是 W1、W3、W4 的內容，也是分析日誌真正的用意。</p>
+        <p><strong>本來就在生產調查數據</strong>：這門課訓練的是審查端。你大概沒有從審查人的位置看過自己的產出，W5 與 W8 就是這件事。</p>
+        <p>三種情況共同的修課方式：每週的【延伸】欄對你是要求而非選配，期末報告至少須包含一項延伸層的工作，並請走審查意見書的路線。W8 的小組稽核中，你不操作滑鼠，只以口頭指導組員操作，並負責事後驗算。</p>
+      </div>
+    </details>
+    <details>
       <summary><span class="s-title">可以用自己的資料做期末報告嗎？</span></summary>
-      <div class="panel"><p>原則上不行。全班使用同一份資料是這門課的設計核心，它讓我們可以在同一個脈絡下累積、比較、互相審查。</p></div>
+      <div class="panel"><p>原則上不行。全班使用同一份資料是這門課的設計核心，它讓我們可以在同一個脈絡下累積、比較、互相審查。</p>
+      <p>這條限制針對的是分析，不是審查。若你選擇撰寫委外民調審查意見書，審查對象可以是你機關實際收到的報告。</p></div>
     </details>
     <details>
       <summary><span class="s-title">AI 可以幫我做多少？</span></summary>
-      <div class="panel"><p>雖然技術上生成式 AI 可以幫你做完全部，但請你拒絕如此做。期末的口頭報告會針對你的每一個分析決策提問，你必須有能力清楚答辯。日誌的設計，就是讓「自己思辨過」和「只叫 AI 想」在成績上有明確差別。</p></div>
+      <div class="panel"><p>雖技術上生成式 AI 可以幫你做完全部，但期末的口頭報告會針對你的每一個分析決策提問，你必須有能力清楚答辯。日誌的設計，就是讓「自己思辨過」和「只叫 AI 想」在成績上有明確差別。</p></div>
     </details>
   </div>
 </section>
@@ -406,6 +437,9 @@ footer{margin-top:72px;padding-top:20px;border-top:1px solid var(--rule);color:v
   weeks.forEach(function(d){d.addEventListener('toggle', sync)});
   sync();
 
+  document.querySelectorAll('a[href="#w8"]').forEach(function(a){
+    a.addEventListener('click', function(){var d=document.getElementById('w8'); if(d){d.open=true; sync();}});
+  });
   /* print: expand every collapsible, restore afterwards */
   var saved = [];
   window.addEventListener('beforeprint', function(){
